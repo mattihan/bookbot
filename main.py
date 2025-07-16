@@ -1,4 +1,5 @@
 from stats import get_num_words, get_character_dictionary, get_character_stats
+import sys
 
 
 def get_book_text(file_path):
@@ -19,13 +20,25 @@ Found {get_num_words(book)} total words""")
     print(f"""--------- Character Count -------\n{format_counts_report(character_counts)}""")
     print("============= END ===============")
 
+def print_usage():
+    print("Usage: python3 main.py <path_to_book>")
+
 def main():
-    FRANKENSTEIN = "books/frankenstein.txt"
+    if len(sys.argv) != 2:
+        print_usage()
+        sys.exit(1)
+
+    BOOK = sys.argv[1]
     try:
-        print_book_report(FRANKENSTEIN)
+        print_book_report(BOOK)
 
     except ValueError as e:
         print(e)
+        sys.exit(3)
+    
+    except FileNotFoundError as e:
+        print(e)
+        sys.exit(2)
 
 
 main()
